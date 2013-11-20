@@ -1,21 +1,17 @@
-describe("when there are no todos", function() {
-    
+describe("when there are no todos", function() {    
 	var todoList = new TodoListViewModel();
-	it("a way to add a task should be the only component present", function() {
-		
+	it("a way to add a task should be the only component present", function() {	
         expect(todoList.todos().length).toEqual(0);
     });
 });
 describe("when adding a new todo", function(){
-
 	var todoList = new TodoListViewModel();	
 	todoList.currentTask().name("test");
 	describe(" and enter is clicked",function(){
 		todoList.saveTask();
 		it("should append the task to the todo list", function(){
 			expect(todoList.todos().length).toEqual(1);
-		});
-		
+		});				
 	});
 	describe("which has trailing spaces", function(){
 		var todoList = new TodoListViewModel();	
@@ -27,9 +23,7 @@ describe("when adding a new todo", function(){
 			});
 			it("should remove the white space from the task", function(){
 				expect(todoList.todos()[0].name()).toEqual("test");
-			});
-			
-			
+			});			
 		});
 	});
 	describe("which has only white space text", function(){
@@ -175,4 +169,64 @@ describe("when an incomplete todo is in the list", function(){
 		});
 	});
 });
+
+describe("when zero incomplete todos are in the list", function(){
+	var todoList = new TodoListViewModel();			
+	it("shows 0 items left", function(){
+		expect(todoList.leftTotal()).toEqual("0 items left");
+	});
+});
+describe("when one incomplete todo is in the list", function(){
+	var todoList = new TodoListViewModel();	
+	todoList.todos().push(new Task());
+	todoList.todos()[0].name("some task");	
+	var msg=todoList.leftTotal();
+	it("shows 1 items left", function(){
+		expect(msg).toEqual("1 item left");
+	});
+});
+
+describe("when 3 incomplete todos are in the list", function(){
+	var todoList = new TodoListViewModel();	
+	todoList.todos().push(new Task());
+	todoList.todos()[0].name("some task");	
+	todoList.todos().push(new Task());
+	todoList.todos()[1].name("some task 1");	
+	todoList.todos().push(new Task());
+	todoList.todos()[2].name("some task 2");
+	var msg=todoList.leftTotal();
+	it("shows 3 items left", function(){
+		expect(msg).toEqual("3 items left");
+	});
+});
+
+
+
+describe("when 3 incomplete todos are in the list", function(){
+	var todoList = new TodoListViewModel();	
+	todoList.todos().push(new Task());
+	todoList.todos()[0].name("some task");	
+	todoList.todos().push(new Task());
+	todoList.todos()[1].name("some task 1");	
+	todoList.todos().push(new Task());
+	todoList.todos()[2].name("some task 2");
+	describe("when complete all is checked",function(){	
+		todoList.allCompletedChecked(true);
+		todoList.allCompletedToggle();
+		var msg=todoList.leftTotal();
+		it("shows 0 items left", function(){
+			expect(msg).toEqual("0 items left");
+		});
+		describe("when complete all is unchecked",function(){	
+			todoList.allCompletedChecked(false);
+			todoList.allCompletedToggle();
+			var msg=todoList.leftTotal();
+			it("shows 3 items left", function(){
+				expect(msg).toEqual("3 items left");
+			});
+		});
+	
+	});	
+});
+
 

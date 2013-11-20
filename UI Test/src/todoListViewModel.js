@@ -20,7 +20,7 @@ function TodoListViewModel(){
 	self.todos = ko.observableArray();
 	self.currentTask=ko.observable(new Task());
 	self.currentTaskIndex=ko.observable(null);	
-	self.leftTotal=ko.computed(function(){
+	self.incompleteTaskCount = function(){
 		var incompleteTasks = 0;
 		for(var t=0;t<self.todos().length;t++){
 			var task = self.todos()[t];
@@ -28,6 +28,10 @@ function TodoListViewModel(){
 				incompleteTasks++;
 			}
 		}
+		return incompleteTasks;
+	}
+	self.leftTotal = function(){
+		var incompleteTasks = self.incompleteTaskCount();
 		if(incompleteTasks==0){
 			return "0 items left";
 		}
@@ -36,12 +40,19 @@ function TodoListViewModel(){
 		}
 		if(incompleteTasks>1){
 			return ""+incompleteTasks+" items left";
-		}
-		
-	});
-	
+		}	
+	}
+	self.allCompletedChecked = ko.observable();
+	self.allCompletedToggle = function(){
+		for(var t=0;t<self.todos().length;t++){
+			var task = self.todos()[t];
+			task.done(self.allCompletedChecked()); 			
+		}		
+		return true;
+	}
 	self.taskDone = function(task){
 		task.done(true);
+		self.allCompletedChecked(self.incompleteTaskCount()==0);
 	}
 	self.clearCurrentTask = function(){
 		self.currentTask(new Task());		

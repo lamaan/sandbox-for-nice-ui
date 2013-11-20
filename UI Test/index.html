@@ -12,8 +12,9 @@
 <style type="text/css">
 input[type="text"]{
 	height:40px;
-	width:300px;
-	margin-top: 10px;
+	width:200px;
+	margin: 10px 50px 0px 50px;
+	
 }
 ul{
 	list-style-type:none;
@@ -28,6 +29,9 @@ li span.icon{
 li.removedItem span{
 	color:grey;
 	text-decoration:line-through;
+}
+li.doneItem span{
+	color:green;	
 }
 li.incompleteItem span.icon{
 	background-image:url('images/circle.png');
@@ -49,8 +53,8 @@ li.removedItem span.icon{
 <div style="font-size:30pt;font-weight: lighter;display: block; border-bottom: 1px solid grey;">My todos</div>
 <input type="text" data-bind="value:currentTask().name, valueUpdate: 'keyup', event:{keyup:currentTaskKeyup, blur:saveTask}"/>
 
-<div data-bind="text:leftTotal"></div>
-
+<div data-bind="text:leftTotal()"></div>
+<div>Mark All As Complete <input type="checkbox" data-bind="checked:allCompletedChecked, click:allCompletedToggle"></div>
 <ul data-bind="foreach:todos">
 	<li data-bind="css:itemClass,event:{mouseover: $parent.toggleActive, mouseout:$parent.toggleActive, dblclick:$parent.editTask}">
 	<span class="icon" data-bind="{click:$parent.taskDone}"></span> 
