@@ -54,6 +54,7 @@ li.removedItem span.icon{
 <input type="text" data-bind="value:currentTask().name, valueUpdate: 'keyup', event:{keyup:currentTaskKeyup, blur:saveTask}"/>
 
 <div data-bind="text:leftTotal()"></div>
+<div data-bind="text:completeTotal()"></div>
 <div>Mark All As Complete <input type="checkbox" data-bind="checked:allCompletedChecked, click:allCompletedToggle"></div>
 <ul data-bind="foreach:todos">
 	<li data-bind="css:itemClass,event:{mouseover: $parent.toggleActive, mouseout:$parent.toggleActive, dblclick:$parent.editTask}">

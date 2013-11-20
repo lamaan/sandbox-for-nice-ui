@@ -20,6 +20,24 @@ function TodoListViewModel(){
 	self.todos = ko.observableArray();
 	self.currentTask=ko.observable(new Task());
 	self.currentTaskIndex=ko.observable(null);	
+	
+	self.completeTaskCount = function(){
+	var completeTasks = 0;
+		for(var t=0;t<self.todos().length;t++){
+			var task = self.todos()[t];
+			if(task.done() && !task.removed()){
+				completeTasks++;
+			}
+		}
+		return completeTasks;
+	}
+	self.completeTotal = function(){
+		var completeTasks = self.completeTaskCount();
+		if(completeTasks>0){
+		return ""+completeTasks+" completed tasks";
+		}
+	}
+	
 	self.incompleteTaskCount = function(){
 		var incompleteTasks = 0;
 		for(var t=0;t<self.todos().length;t++){
